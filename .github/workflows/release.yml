@@ -23,28 +23,13 @@ jobs:
       run: |
         wget https://services.gradle.org/distributions/gradle-2.0-bin.zip
         unzip -q gradle-2.0-bin.zip
-        echo "$GITHUB_WORKSPACE/gradle-2.0/bin" >> $GITHUB_PATH
-
-    - name: Setup Gradle Wrapper manually
-      run: |
-        mkdir -p gradle/wrapper
-        wget https://raw.githubusercontent.com/gradle/gradle/v2.0.0/gradle/wrapper/gradle-wrapper.jar -O gradle/wrapper/gradle-wrapper.jar
-        wget https://raw.githubusercontent.com/gradle/gradle/v2.0.0/gradlew
-        wget https://raw.githubusercontent.com/gradle/gradle/v2.0.0/gradlew.bat
-        cat > gradle/wrapper/gradle-wrapper.properties << 'EOF'
-        distributionBase=GRADLE_USER_HOME
-        distributionPath=wrapper/dists
-        zipStoreBase=GRADLE_USER_HOME
-        zipStorePath=wrapper/dists
-        distributionUrl=https\://services.gradle.org/distributions/gradle-2.0-bin.zip
-        EOF
-        chmod +x gradlew
+        chmod +x gradle-2.0/bin/gradle
 
     - name: Setup Decompile Workspace
-      run: ./gradlew setupDecompWorkspace --no-daemon --stacktrace
+      run: ./gradle-2.0/bin/gradle setupDecompWorkspace --no-daemon --stacktrace
 
     - name: Build with Gradle
-      run: ./gradlew build --no-daemon --stacktrace
+      run: ./gradle-2.0/bin/gradle build --no-daemon --stacktrace
 
     - name: Get version from tag
       id: get_version
