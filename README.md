@@ -1,5 +1,7 @@
 # Tea Addon for TerraFirmaCraft
 
+![Build Status](../../actions/workflows/build.yml/badge.svg)
+
 A Minecraft 1.7.10 Forge mod that adds Tea crops to TerraFirmaCraft.
 
 ## Features
@@ -13,9 +15,30 @@ A Minecraft 1.7.10 Forge mod that adds Tea crops to TerraFirmaCraft.
 - Minecraft 1.7.10
 - Forge 10.13.4.1614-1558 (or compatible 1.7.10 version)
 - TerraFirmaCraft 0.79.29.922
-- Java 1.8
 
-## Building
+## Download (Easy Way)
+
+**No need to build!** Every commit automatically builds the JAR file using GitHub Actions.
+
+### Option 1: Download from GitHub Actions (Latest Build)
+1. Go to the [Actions tab](../../actions/workflows/build.yml)
+2. Click on the latest successful build (green checkmark ✓)
+3. Scroll down to "Artifacts" section
+4. Download `teaaddon-jar`
+5. Extract the ZIP file to get the `.jar` file
+
+### Option 2: Download from Releases (Stable Versions)
+1. Go to the [Releases page](../../releases)
+2. Download the latest `teaaddon-1.0.0.jar` file
+3. No extraction needed!
+
+### Installation
+1. Download the JAR file using one of the methods above
+2. Place it in your `.minecraft/mods/` folder
+3. Make sure TerraFirmaCraft is also installed
+4. Launch Minecraft with Forge
+
+## Building (For Developers)
 
 ### Prerequisites
 
@@ -35,13 +58,6 @@ gradlew.bat build
 ```
 
 The compiled mod will be located at: `build/libs/teaaddon-1.0.0.jar`
-
-## Installation
-
-1. Build the mod using the instructions above
-2. Copy `teaaddon-1.0.0.jar` to your Minecraft `mods/` folder
-3. Ensure TerraFirmaCraft is also installed
-4. Launch Minecraft with Forge
 
 ## Development
 
