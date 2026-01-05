@@ -1,0 +1,16 @@
+[
+{
+  "modid": "teaaddon",
+  "name": "Tea Addon",
+  "description": "Adds Tea crops to TerraFirmaCraft",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Dion"],
+  "credits": "Based on TerraFirmaCraft",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["terrafirmacraft"]
+}
+]

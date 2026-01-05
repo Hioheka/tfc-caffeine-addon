@@ -1,0 +1,28 @@
+# Gradle
+.gradle/
+build/
+out/
+run/
+
+# IntelliJ IDEA
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# Other
+*.class
+*.log
+*.jar
+!gradle-wrapper.jar
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
