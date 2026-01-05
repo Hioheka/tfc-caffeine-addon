@@ -27,16 +27,8 @@ jobs:
         unzip -q gradle-2.0-bin.zip
         chmod +x gradle-2.0/bin/gradle
 
-    - name: Fix Minecraft asset URLs
-      run: |
-        mkdir -p $HOME/.gradle/caches/minecraft/net/minecraft/
-        mkdir -p $HOME/.gradle/caches/minecraft/assets/indexes/
-        # Download from new launcher manifest URLs
-        wget https://launchermeta.mojang.com/v1/packages/8a9d6d825321efe1e753a1f9509e7e0c9c5b823b/1.7.10.json -O $HOME/.gradle/caches/minecraft/net/minecraft/1.7.10/1.7.10.json || true
-        wget https://launchermeta.mojang.com/v1/packages/dd78f31e8e37c4d4e79724a0cec84a3a45a847c9/1.7.10.json -O $HOME/.gradle/caches/minecraft/assets/indexes/1.7.10.json || true
-
-    - name: Setup Decompile Workspace
-      run: ./gradle-2.0/bin/gradle setupDecompWorkspace --no-daemon --stacktrace --refresh-dependencies
+    - name: Setup CI Workspace (optimized for CI, no assets needed)
+      run: ./gradle-2.0/bin/gradle setupCIWorkspace --no-daemon --stacktrace
 
     - name: Build with Gradle
       run: ./gradle-2.0/bin/gradle build --no-daemon --stacktrace
