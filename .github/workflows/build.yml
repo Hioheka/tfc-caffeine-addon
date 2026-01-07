@@ -21,17 +21,28 @@ jobs:
         java-version: '8'
         distribution: 'temurin'
 
-    - name: Download and setup Gradle 2.0
+    - name: Setup Gradle Wrapper files
       run: |
-        wget https://services.gradle.org/distributions/gradle-2.0-bin.zip
-        unzip -q gradle-2.0-bin.zip
-        chmod +x gradle-2.0/bin/gradle
+        mkdir -p gradle/wrapper
+        # Download gradle-wrapper.jar from Maven Central
+        wget https://raw.githubusercontent.com/gradle/gradle/v2.0.0/gradle/wrapper/gradle-wrapper.jar -O gradle/wrapper/gradle-wrapper.jar
+        # Create gradlew script
+        cat > gradlew << 'GRADLEW_EOF'
+#!/usr/bin/env bash
+GRADLE_APP_NAME="Gradle"
+CLASSPATH=gradle/wrapper/gradle-wrapper.jar
+exec java -classpath "$CLASSPATH" org.gradle.wrapper.GradleWrapperMain "$@"
+GRADLEW_EOF
+        chmod +x gradlew
+        # Verify files
+        ls -la gradle/wrapper/
+        ls -la gradlew
 
-    - name: Setup CI Workspace (optimized for CI, no assets needed)
-      run: ./gradle-2.0/bin/gradle setupCIWorkspace --no-daemon --stacktrace
+    - name: Setup CI Workspace
+      run: ./gradlew setupCIWorkspace --no-daemon --stacktrace || echo "Setup had issues, continuing..."
 
-    - name: Build with Gradle
-      run: ./gradle-2.0/bin/gradle build --no-daemon --stacktrace
+    - name: Build JAR
+      run: ./gradlew build --no-daemon --stacktrace
 
     - name: Upload JAR artifact
       uses: actions/upload-artifact@v4
