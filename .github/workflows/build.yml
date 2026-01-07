@@ -21,13 +21,33 @@ jobs:
         java-version: '8'
         distribution: 'temurin'
 
-    - name: Download and setup Gradle 2.12
+    - name: Download dependencies
       run: |
-        wget https://services.gradle.org/distributions/gradle-2.12-bin.zip
-        unzip -q gradle-2.12-bin.zip
+        mkdir -p libs
+        # Download Minecraft Forge 1.7.10 dev
+        wget https://maven.minecraftforge.net/net/minecraftforge/forge/1.7.10-10.13.4.1614-1.7.10/forge-1.7.10-10.13.4.1614-1.7.10-dev.jar -O libs/forge.jar
+        # Download TFC dev
+        wget https://maven.dries007.net/com/bioxx/tfc/TerraFirmaCraft/0.79.29.922/TerraFirmaCraft-0.79.29.922-dev.jar -O libs/tfc.jar
 
-    - name: Build JAR (direct, no workspace setup)
-      run: ./gradle-2.12/bin/gradle build --no-daemon --stacktrace
+    - name: Compile Java sources
+      run: |
+        mkdir -p build/classes
+        find src/main/java -name "*.java" > sources.txt
+        javac -cp "libs/*" -d build/classes @sources.txt
+
+    - name: Build JAR
+      run: |
+        # Copy resources
+        cp -r src/main/resources/* build/classes/ 2>/dev/null || true
+        # Update mcmod.info version
+        sed -i "s/\${version}/1.0.0/g" build/classes/mcmod.info
+        sed -i "s/\${mcversion}/1.7.10/g" build/classes/mcmod.info
+        # Create JAR
+        mkdir -p build/libs
+        cd build/classes
+        jar cf ../libs/teaaddon-1.0.0.jar .
+        cd ../..
+        ls -lh build/libs/
 
     - name: Upload JAR artifact
       uses: actions/upload-artifact@v4
@@ -35,6 +55,3 @@ jobs:
         name: teaaddon-jar
         path: build/libs/*.jar
         retention-days: 90
-
-    - name: List build output
-      run: ls -lh build/libs/
